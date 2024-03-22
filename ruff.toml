@@ -1,0 +1,34 @@
+line-length = 80
+extend-exclude = [ "**/tests/**" ]
+
+[lint]
+select = [
+    # pycodestyle
+    "E",
+    # Pyflakes
+    "F",
+    # pyupgrade
+    "UP",
+    # flake8-bugbear
+    "B",
+    # flake8-simplify
+    "SIM",
+    # isort
+    "I",
+    # pydocstyle
+    "D",
+    # pep8naming
+    "N",
+    #flake8-unused-arguments
+    "ARG"
+]
+
+# On top of the Google convention, disable `D417`, which requires
+# documentation for every function parameter.
+ignore = [
+    "D417"
+]
+
+[lint.per-file-ignores]
+"__init__.py" = ["D200", "D104"]
+"**/{tests,docs,tools}/*" = ["E402"]

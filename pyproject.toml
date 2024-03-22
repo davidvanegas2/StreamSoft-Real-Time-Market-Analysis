@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "streamsoft_market_analysis"
+version = "0.1.0"
+description = "StreamSoft enables real-time analysis of any stock market"
+authors = ["David Felipe Vanegas Ramirez <davidfvanegas@outlook.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+
+[tool.poetry.group.dev.dependencies]
+development_package = { path = "./shared/python/development_package", develop = true }
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

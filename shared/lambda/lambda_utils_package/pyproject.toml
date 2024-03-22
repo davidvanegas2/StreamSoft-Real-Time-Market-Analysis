@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "lambda-utils-package"
+version = "0.1.0"
+description = ""
+authors = ["David Felipe Vanegas Ramirez <david@loka.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+aws-lambda-powertools = {extras = ["aws-sdk"], version = "^2.31.0"}
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

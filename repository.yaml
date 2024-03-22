@@ -1,0 +1,8 @@
+metadata:
+  repository_name: streamsoft_market_analysis
+  description: StreamSoft Real-Time Market Analysis
+  author: David Felipe Vanegas Ramirez
+  email: davidfvanegas@outlook.com
+  python_version: 3.12
+  version: 0.1.0
+  created_at: 2024-03-22
