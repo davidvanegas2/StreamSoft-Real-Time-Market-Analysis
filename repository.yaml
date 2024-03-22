@@ -1,8 +1,19 @@
+layers:
+  - name: producer
+    resources:
+      - components: []
+        name: python
+        resource_type: null
+  - name: consumer
+    resources:
+      - components: []
+        name: glue
+        resource_type: null
 metadata:
-  repository_name: streamsoft_market_analysis
-  description: StreamSoft Real-Time Market Analysis
   author: David Felipe Vanegas Ramirez
+  created_at: 2024-03-22
+  description: StreamSoft Real-Time Market Analysis
   email: davidfvanegas@outlook.com
   python_version: 3.12
+  repository_name: streamsoft_market_analysis
   version: 0.1.0
-  created_at: 2024-03-22
