@@ -18,13 +18,9 @@ produce_data()
     Produce data to the Kinesis stream
 
 """
-import random
-import time
 import uuid
 
 import boto3
-from financial_market import get_stock_data
-from utils import format_dict_to_json
 
 
 class KinesisProducer:
@@ -65,19 +61,3 @@ class KinesisProducer:
             Data=message,
             PartitionKey=partition_key,
         )
-
-    def produce_data(self, partition_key: str = str(uuid.uuid4())) -> None:
-        """Produce data to the Kinesis stream.
-
-        Parameters
-        ----------
-        partition_key: str
-            The partition key for the Kinesis stream
-        """
-        symbols = ["AAPL", "GOOGL", "MSFT", "AMZN", "FB"]
-        while True:
-            stock_data = get_stock_data(random.choice(symbols))
-            data = format_dict_to_json(stock_data)
-            self.send_message(data, partition_key)
-            print(f"Data produced to stream {self.stream_name}: {data}")
-            time.sleep(5)

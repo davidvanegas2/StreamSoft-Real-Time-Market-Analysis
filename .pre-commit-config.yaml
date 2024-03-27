@@ -9,10 +9,6 @@ repos:
         exclude: '^.+\.csv'
       - id: check-yaml
       - id: check-added-large-files
-  - repo: https://github.com/asottile/reorder_python_imports
-    rev: v3.12.0
-    hooks:
-      - id: reorder-python-imports
   - repo: https://github.com/codespell-project/codespell
     rev: v2.2.4
     hooks:

@@ -9,6 +9,7 @@ readme = "README.md"
 python = "^3.10"
 requests = "^2.25"
 boto3 = "^1.34"
+mimesis = "^15.0"
 
 
 [build-system]

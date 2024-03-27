@@ -14,62 +14,44 @@ get_stock_data(symbol: str, output_size: str = "compact") -> dict
 
 """
 import random
-from datetime import datetime
+
+from mimesis import Field, Schema
 
 
-def simulate_stock_prices() -> dict:
-    """Simulate stock prices with random values.
-
-    The values simulated are:
-    - open
-    - high
-    - low
-    - close
-    - current
-
-    The high value is always greater than the open value.
-    The low value is always smaller than the open value.
+def define_schema():
+    """Define the schema for the trade data.
 
     Returns
     -------
     dict
-        The simulated stock prices
+        The schema for the trade data
     """
-    open_price = random.uniform(100, 200)
-    high_price = open_price + random.uniform(0, 10)
-    low_price = open_price - random.uniform(0, 10)
-    close_price = random.uniform(low_price, high_price)
-    current = close_price + random.uniform(-1, 1)
-
+    field = Field()
     return {
-        "open": round(open_price, 2),
-        "high": round(high_price, 2),
-        "low": round(low_price, 2),
-        "close": round(close_price, 2),
-        "current": round(current, 2),
+        "operation_id": field("uuid"),
+        "person_name": field("person.full_name"),
+        "symbol": field("finance.stock_ticker"),
+        "timestamp": field(
+            "datetime.formatted_datetime", fmt="%Y-%m-%d %H:%M:%S"
+        ),
+        "exchange": field("finance.stock_exchange"),
+        "currency": "USD",
+        "price": round(field("finance.price"), 2),
+        "operation": random.choice(["purchase", "sale"]),
     }
 
 
-def get_stock_data(symbol: str) -> dict:
-    """Get the stock data for a given symbol.
-
-    All the data will be simulated.
+def generate_trade_data(n: int) -> Schema:
+    """Generate trade data.
 
     Parameters
     ----------
-    symbol: str
-        The symbol of the stock
+    n: int
+        The number of trade data to generate
 
     Returns
     -------
-    dict
-        The stock data
+    list
+        A list of trade data
     """
-    metadata = {
-        "symbol": symbol,
-        "timestamp": datetime.now().isoformat(),
-        "exchange": "NASDAQ",
-        "currency": "USD",
-    }
-    prices = simulate_stock_prices()
-    return metadata | prices
+    return Schema(schema=define_schema, iterations=n)
