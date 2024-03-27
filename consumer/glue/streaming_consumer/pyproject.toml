@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "streaming-consumer"
+version = "0.1.0"
+description = ""
+authors = ["David Felipe Vanegas Ramirez <david@loka.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+pyspark = "^3.4"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
