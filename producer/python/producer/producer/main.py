@@ -4,7 +4,7 @@ import argparse
 from financial_market import generate_trade_data
 from kinesis_producer import KinesisProducer
 
-from producer.utils import format_dict_to_json
+from producer.utils import format_dict_to_json, get_average_size
 
 
 def main():
@@ -34,18 +34,28 @@ def main():
         default=False,
         help="Send data to Kinesis",
     )
+    parser.add_argument(
+        "--get_average_record_size",
+        type=bool,
+        default=False,
+        help="Get the average size of the record",
+    )
     args = parser.parse_args()
+    records = []
 
     schema = generate_trade_data(args.max_records)
 
     for data in schema.create():
         if args.send_kinesis:
             producer = KinesisProducer(args.stream_name, args.region_name)
-            producer.send_message(
-                format_dict_to_json(data), data["operation_id"]
-            )
+            producer.send_message(format_dict_to_json(data), data["exchange"])
         else:
-            print(format_dict_to_json(data))
+            json_data = format_dict_to_json(data)
+            records.append(json_data)
+            print(json_data, data["exchange"])
+
+    if args.get_average_record_size:
+        print(get_average_size(records))
 
 
 if __name__ == "__main__":
