@@ -101,7 +101,7 @@ def process_batch(mini_batch_df, batch_id):
             symbol STRING,
             timestamp STRING,
             exchange STRING,
-            currency DOUBLE,
+            currency STRING,
             price DOUBLE,
             operation STRING
         ) USING DELTA
