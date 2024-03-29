@@ -78,3 +78,8 @@ resource "aws_glue_catalog_database" "glue_catalog_database_silver" {
   name         = "${var.lakehouse_name}_silver"
   location_uri = "s3://${aws_s3_bucket.lakehouse_bucket.id}/delta/financial_transactions/silver/"
 }
+
+resource "aws_glue_catalog_database" "glue_catalog_database_gold" {
+  name         = "${var.lakehouse_name}_gold"
+  location_uri = "s3://${aws_s3_bucket.lakehouse_bucket.id}/delta/financial_transactions/gold/"
+}

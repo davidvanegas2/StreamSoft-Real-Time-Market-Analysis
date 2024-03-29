@@ -9,6 +9,11 @@ layers:
       - components: []
         name: glue
         resource_type: null
+  - name: dashboard
+    resources:
+      - components: []
+        name: metabase
+        resource_type: null
 metadata:
   author: David Felipe Vanegas Ramirez
   created_at: 2024-03-22
