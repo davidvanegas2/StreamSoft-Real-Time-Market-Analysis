@@ -15,3 +15,9 @@ resource "aws_s3_object" "streaming_job" {
   key    = "delta/ingest_data/streaming_job.py"
   source = "${var.project_root}/consumer/glue/streaming_consumer/streaming_consumer/job.py"
 }
+
+resource "aws_s3_object" "silver_job" {
+  bucket = aws_s3_bucket.resources_bucket.bucket
+  key    = "delta/ingest_data/silver_job.py"
+  source = "${var.project_root}/consumer/glue/batch_silver/batch_silver/job.py"
+}
