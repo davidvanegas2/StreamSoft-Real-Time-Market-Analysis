@@ -88,7 +88,7 @@ def create_silver_table():
                 operation_id STRING,
                 person_name STRING,
                 symbol STRING,
-                timestamp STRING,
+                timestamp TIMESTAMP,
                 exchange STRING,
                 currency STRING,
                 price DOUBLE,

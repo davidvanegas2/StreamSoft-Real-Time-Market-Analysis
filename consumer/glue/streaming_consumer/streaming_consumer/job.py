@@ -99,7 +99,7 @@ def process_batch(mini_batch_df, batch_id):
             operation_id STRING,
             person_name STRING,
             symbol STRING,
-            timestamp STRING,
+            timestamp TIMESTAMP,
             exchange STRING,
             currency STRING,
             price DOUBLE,
