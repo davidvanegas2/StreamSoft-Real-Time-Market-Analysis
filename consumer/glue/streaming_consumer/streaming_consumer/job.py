@@ -11,7 +11,6 @@ The mandatory steps are:
 The mandatory job parameters are:
 --conf: The Spark configuration
 """
-import os
 import sys
 
 from awsglue import DynamicFrame
@@ -41,11 +40,13 @@ args = getResolvedOptions(
         "JOB_NAME",
         "catalog",
         "database_name",
-        "table_name" "primary_key",
+        "table_name",
+        "primary_key",
         "partition_key",
         "kinesis_arn",
         "delta_s3_path",
         "window_size",
+        "checkpoint_path",
     ],
 )
 
@@ -59,6 +60,7 @@ PARTITION_KEY = args["partition_key"].strip()
 KINESIS_ARN = args["kinesis_arn"].strip()
 DELTA_S3_PATH = args["delta_s3_path"].strip()
 WINDOW_SIZE = args["window_size"].strip()
+CHECKPOINT_PATH = args["checkpoint_path"].strip()
 
 # Initialize the job
 job.init(JOB_NAME, args)
@@ -74,6 +76,7 @@ logger.info(
     f"KINESIS_ARN: {KINESIS_ARN}\n"
     f"DELTA_S3_PATH: {DELTA_S3_PATH}\n"
     f"WINDOW_SIZE: {WINDOW_SIZE}\n"
+    f"OUTPUT_PATH: {CHECKPOINT_PATH}"
 )
 
 
@@ -100,7 +103,7 @@ def process_batch(mini_batch_df, batch_id):
             exchange STRING,
             currency DOUBLE,
             price DOUBLE,
-            operation STRING,
+            operation STRING
         ) USING DELTA
         PARTITIONED BY ({PARTITION_KEY})
         LOCATION '{DELTA_S3_PATH}'
@@ -148,7 +151,8 @@ def process_batch(mini_batch_df, batch_id):
 # Read the streaming data from the Kinesis stream
 logger.info("Reading the streaming data from the Kinesis stream")
 kinesis_options = {
-    "streamArn": KINESIS_ARN,
+    "typeOfData": "kinesis",
+    "streamARN": KINESIS_ARN,
     "startingPosition": "LATEST",
     "inferSchema": "true",
     "classification": "json",
@@ -161,12 +165,12 @@ df.printSchema()
 
 # Write the streaming data to the Iceberg table
 logger.info("Writing the streaming data to the Iceberg table")
-checkpoint_path = os.path.join(args["TempDir"], JOB_NAME, "checkpoint")
+# checkpoint_path = f"{OUTPUT_PATH}/checkpoint"
 glue_context.forEachBatch(
     frame=df,
     batch_function=process_batch,
     options={
-        "checkpointLocation": checkpoint_path,
+        "checkpointLocation": CHECKPOINT_PATH,
         "windowSize": WINDOW_SIZE,
     },
 )
