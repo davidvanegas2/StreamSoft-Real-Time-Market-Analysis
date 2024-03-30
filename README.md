@@ -2,6 +2,9 @@
 
 This repository contains the code for the Grouper Data repository. It is a monorepo that contains glue jobs, lambdas, shared packages and notebooks developed by Loka, Inc.
 
+## Architecture
+![streamsoft drawio](https://github.com/davidvanegas2/StreamSoft-Real-Time-Market-Analysis/assets/46963726/a9ba59a3-b511-4691-931c-f4ef6cbf8edd)
+
 ## Usage
 
 To use this repository template, follow these steps:
