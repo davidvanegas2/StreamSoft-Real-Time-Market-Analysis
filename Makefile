@@ -54,3 +54,28 @@ verify-python-version:
 .PHONY: setup
 setup: check-pyenv check-poetry install-python set-local-python verify-python-version build
 	@echo " ------------- Setup completed ------------- "
+
+.PHONY: verify-aws-credentials-exist
+verify-aws-credentials-exist:
+	@echo "Verifying AWS credentials..."
+	@test -f ~/.aws/credentials || (echo "AWS credentials not found. Please configure AWS credentials before proceeding." && exit 1)
+	@echo " ------------- AWS credentials verified ------------- "
+
+.PHONY: deploy-terraform
+deploy-terraform: verify-aws-credentials-exist
+	@echo "Deploying Terraform..."
+	@cd infrastructure/terraform && terraform init && terraform apply -auto-approve
+	@echo " ------------- Terraform deployment completed ------------- "
+
+.PHONY: destroy-terraform
+destroy-terraform: verify-aws-credentials-exist
+	@echo "Destroying Terraform..."
+	@cd infrastructure/terraform && terraform destroy -auto-approve
+	@echo " ------------- Terraform destruction completed ------------- "
+
+.PHONY: run-app
+run-app: deploy-terraform
+	@echo "Running the application..."
+	@cd producer/python/producer/ && poetry lock && poetry install
+	@poetry run python producer/python/producer/producer/main.py --send_kinesis True --region_name us-west-2
+	@echo " ------------- Application run completed ------------- "
